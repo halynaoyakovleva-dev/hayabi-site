@@ -1,13 +1,15 @@
-import { defineConfig } from 'sanity';
-import { visionTool } from '@sanity/vision';
-import { schemaTypes } from './schemas/documents';
+// sanity/sanity.config.ts
+import { defineConfig } from 'sanity'
+import { deskTool } from 'sanity/desk'
+import { visionTool } from '@sanity/vision'
+import { schemaTypes } from './schemas/documents'
 
 export default defineConfig({
   name: 'default',
   title: 'HAYABI CMS',
-  projectId: process.env.SANITY_PROJECT_ID!,
-  dataset: process.env.SANITY_DATASET!,
   basePath: '/studio',
-  plugins: [visionTool()],
-  schema: { types: schemaTypes as any },
-});
+  projectId: process.env.SANITY_PROJECT_ID!,   // set in Vercel → Env
+  dataset: process.env.SANITY_DATASET || 'production',
+  plugins: [deskTool(), visionTool()],
+  schema: { types: schemaTypes },
+})
