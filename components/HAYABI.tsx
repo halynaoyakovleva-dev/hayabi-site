@@ -327,7 +327,8 @@ export default function HAYABI({ cms, defaultLang = 'en' }: { cms?: CMS; default
   );
 }
 
-function Card({ icon, title, bullets }: { icon: React.ReactNode; title: string; bullets: string[] }) {
+// NOTE: bullets now accepts ReadonlyArray<string>
+function Card({ icon, title, bullets }: { icon: React.ReactNode; title: string; bullets: ReadonlyArray<string> }) {
   return (
     <div className="rounded-3xl bg-white p-6 shadow hover:shadow-md transition-shadow">
       <div className="flex items-center gap-2 text-emerald-700 font-semibold"><span>{icon}</span> {title}</div>
