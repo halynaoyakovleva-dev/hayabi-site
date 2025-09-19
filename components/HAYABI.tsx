@@ -20,12 +20,12 @@ const copy = {
     cta: { getInTouch: "Get in touch", book: "Book a consultation", explore: "Explore services", send: "Send message", sent: "Sent ✓" },
     hero: {
       title: <>Ukrainian Public Procurement <span className="text-emerald-600">Consultancy</span></>,
-      lead: "HAYABI provides end‑to‑end consulting in Ukrainian public procurement (Prozorro) and compliance for the Ukrainian market — from market scouting and tender documentation to sanctions/AML controls and audit‑ready governance.",
+      lead: "HAYABI provides end-to-end consulting in Ukrainian public procurement (Prozorro) and compliance for the Ukrainian market — from market scouting and tender documentation to sanctions/AML controls and audit-ready governance.",
       bullets: [
-        "End‑to‑end public procurement in Ukraine (RFI/RFP, bids, vendor negotiations)",
+        "End-to-end public procurement in Ukraine (RFI/RFP, bids, vendor negotiations)",
         "Sanctions & AML risk screening aligned with Ukrainian legislation",
         "Tender documentation, Prozorro registration, and turnkey bid support",
-        "Process optimization, governance, and audit‑ready documentation",
+        "Process optimization, governance, and audit-ready documentation",
       ],
     },
     services: {
@@ -43,7 +43,7 @@ const copy = {
       s3: { title: "Sanctions & Compliance", bullets: [
         "Sanctions/AML screening & risk controls for Ukraine",
         "Processes & policies aligned with Ukrainian requirements",
-        "Staff training and post‑award support"
+        "Staff training and post-award support"
       ]},
     },
     expertise: {
@@ -54,7 +54,7 @@ const copy = {
         "RFP/RFI orchestration",
         "Prozorro platform monitoring and accreditation",
         "Contract drafting, review, and vendor performance tracking",
-        "Budget discipline and audit‑ready documentation",
+        "Budget discipline and audit-ready documentation",
         "Stakeholder management and dispute representation",
       ],
     },
@@ -76,10 +76,10 @@ const copy = {
     cta: { getInTouch: "Зв’язатися", book: "Записатися на консультацію", explore: "Переглянути послуги", send: "Надіслати", sent: "Надіслано ✓" },
     hero: {
       title: <>Консалтинг у сфері <span className="text-emerald-600">публічних закупівель України</span></>,
-      lead: "HAYABI надає повний цикл консалтингу у сфері українських публічних закупівель (Prozorro) та комплаєнсу для українського ринку — від пошуку можливостей і тендерної документації до санкційного/AML‑контролю та підготовки до аудитів.",
+      lead: "HAYABI надає повний цикл консалтингу у сфері українських публічних закупівель (Prozorro) та комплаєнсу для українського ринку — від пошуку можливостей і тендерної документації до санкційного/AML-контролю та підготовки до аудитів.",
       bullets: [
         "Повний цикл публічних закупівель в Україні (RFI/RFP, тендери, переговори з постачальниками)",
-        "Санкційний та AML‑скринінг відповідно до вимог законодавства України",
+        "Санкційний та AML-скринінг відповідно до вимог законодавства України",
         "Тендерна документація, реєстрація в Prozorro, супровід подачі",
         "Оптимізація процесів, управління та документація для аудитів",
       ],
@@ -104,7 +104,7 @@ const copy = {
     },
     expertise: {
       title: "Галузева експертиза",
-      p1: "Досвід у сфері українських публічних закупівель для органів влади та регульованих секторів: будівництво, ІТ‑системи (зокрема Case Management System), авіаційне навчання та обслуговування, корпоративні операції.",
+      p1: "Досвід у сфері українських публічних закупівель для органів влади та регульованих секторів: будівництво, ІТ-системи (зокрема Case Management System), авіаційне навчання та обслуговування, корпоративні операції.",
       p2: "Результати з підвищення якості управління закупівлями, інтеграції комплаєнсу та зменшення корупційних ризиків у складних середовищах українського ринку.",
       bullets: [
         "Оркестрація RFP/RFI",
@@ -226,9 +226,23 @@ export default function HAYABI({ cms, defaultLang = 'en' }: { cms?: CMS; default
           <h2 className="text-2xl md:text-3xl font-bold">{ s(cms?.services?.sectionTitle) || t.services.title }</h2>
           <div className="mt-8 grid md:grid-cols-3 gap-6">
             {serviceItems.map((item, idx) => {
-              const title = s(item.title || undefined as any) || [t.services.s1.title, t.services.s2.title, t.services.s3.title][idx] || "";
-              const bullets = (item.bullets?.map(b => (b.text as any)?.[lang]).filter(Boolean) as string[] | undefined)
-                              ?? [t.services.s1.bullets, t.services.s2.bullets, t.services.s3.bullets][idx] || [];
+              // Title: from CMS or fallback
+              const title =
+                s(item.title as any) ||
+                [t.services.s1.title, t.services.s2.title, t.services.s3.title][idx] ||
+                "";
+
+              // Bullets: try CMS first
+              const cmsBullets = (item.bullets || [])
+                .map((b) => (b.text as any)?.[lang])
+                .filter(Boolean) as string[];
+
+              // Fallback bullets (hardcoded)
+              const fallbackBullets =
+                [t.services.s1.bullets, t.services.s2.bullets, t.services.s3.bullets][idx] || [];
+
+              const bullets = cmsBullets.length > 0 ? cmsBullets : fallbackBullets;
+
               const Icon = [Globe, Building2, Shield][idx] || Globe;
               return <Card key={idx} icon={<Icon className="h-5 w-5" />} title={title} bullets={bullets} />;
             })}
@@ -305,7 +319,7 @@ export default function HAYABI({ cms, defaultLang = 'en' }: { cms?: CMS; default
           <p>© {new Date().getFullYear()} HAYABI. All rights reserved.</p>
           <div className="flex items-center gap-2">
             <Banknote className="h-4 w-4"/>
-            <span>Swiss‑based consultancy • Operating in Ukraine, Switzerland, EU</span>
+            <span>Swiss-based consultancy • Operating in Ukraine, Switzerland, EU</span>
           </div>
         </div>
       </footer>
